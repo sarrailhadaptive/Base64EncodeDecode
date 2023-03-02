@@ -1,4 +1,5 @@
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 import static java.lang.System.out;
 
@@ -6,7 +7,14 @@ import static java.lang.System.out;
 public class CustomBase64 {
 
     public static void main(String[] args) {
-        out.println(encode("String passed as parameter."));
+        for(int i = 0; i < 1000000; i++)
+        out.println(encode(GenerateString()));
+    }
+
+    public static String GenerateString() {
+        UUID uuid = UUID.randomUUID();
+        String uuidAsString = uuid.toString();
+        return uuidAsString;
     }
 
     public static String encode(String input) {
