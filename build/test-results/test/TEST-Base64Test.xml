@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="Base64Test" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-03-02T10:35:36" hostname="Matiass-MacBook-Pro.local" time="0.029">
+<testsuite name="Base64Test" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-03-02T11:20:33" hostname="Matiass-MacBook-Pro.local" time="0.007">
   <properties/>
-  <testcase name="EncodeText()" classname="Base64Test" time="0.029"/>
+  <testcase name="EncodeText()" classname="Base64Test" time="0.007"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
