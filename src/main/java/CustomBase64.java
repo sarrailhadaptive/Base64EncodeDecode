@@ -8,7 +8,21 @@ public class CustomBase64 {
 
     public static void main(String[] args) {
         for(int i = 0; i < 1000000; i++)
-        out.println(encode(GenerateString()));
+        {
+            final CustomBase64 customBase64 = new CustomBase64();
+            out.println(customBase64.encode(GenerateString()));
+        }
+
+    }
+
+    private char[] outputChars;
+    //private StringBuilder sb; <<-- it allocates when calls toString()
+
+
+
+    public CustomBase64()
+    {
+        this.outputChars = new char[tamaño fijo]; // reutilizar el mismo tantas veces para un input como haga falta
     }
 
     public static String GenerateString() {
@@ -17,7 +31,7 @@ public class CustomBase64 {
         return uuidAsString;
     }
 
-    public static String encode(String input) {
+    public String encode(String input) {
         // 1. Define table of Base64 characters
         final char[] base64Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
         // 2. Convert input to byte array using UTF-8 encoding
@@ -26,7 +40,7 @@ public class CustomBase64 {
         final int inputLen = inputBytes.length;
         final int outputLen = (inputLen + 2) / 3 * 4;
         // 3. Output is stored as charArray to avoid creating temporary strings that would trigger the garbage collector
-        final char[] outputChars = new char[outputLen];
+        final  = new char[outputLen];
 
         // 4. Convert 3-byte chunks to 4-byte chunks
         for (int i = 0, j = 0; i < inputLen;) {
@@ -50,6 +64,6 @@ public class CustomBase64 {
             }
         }
 
-        return new String(outputChars);
+        return FIND A CLASS THAT CAN RETURN A STRING FROM A CHAR[] WITHOUT ALLOCATING;
     }
 }
