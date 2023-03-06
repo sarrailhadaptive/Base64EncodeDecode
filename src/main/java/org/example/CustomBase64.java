@@ -10,22 +10,16 @@ import static java.lang.System.out;
 
 public class CustomBase64 {
 
-    public static void main(String[] args) {
-        // Aun genero entre un 0.3% y 0.1% de garbage collection en 1 millon de llamadas
-        // en 100 millones de llamadas se genera 100% uso del CPU y se congela todo.
-        for (int i = 0; i < 100000; i++) {
-            final CustomBase64 customBase64 = new CustomBase64();
-            out.println(customBase64.encode(UUID.randomUUID().toString()));
-        }
+    public static void main(String[] args) {CustomBase64 customBase64 = new CustomBase64();
     }
 
-    private static char[] outputChars = new char[20];
-    private static char[] buffer = new char[20];
+    private static char[] outputChars = new char[100];
+    private static char[] buffer = new char[100];
     private static final char[] base64Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
     static String res = "";
     //private StringBuilder sb; <<-- it allocates when calls toString()
 
-    public static String encode(String input) {
+    public static String encoder(String input) {
         // 2. Convert input to byte array using UTF-8 encoding
         final byte[] inputBytes = input.getBytes(StandardCharsets.UTF_8);
         // DRY
@@ -63,14 +57,6 @@ public class CustomBase64 {
         }
 
         return res;
-    }
-
-    public List<String> generateList() {
-        List<String> outputList  = new ArrayList<>();
-        for (int i = 0; i < 1000000; i++) {
-            outputList.add(UUID.randomUUID().toString());
-        }
-        return outputList;
     }
 }
 
