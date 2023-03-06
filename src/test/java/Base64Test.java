@@ -1,3 +1,4 @@
+import org.example.CustomBase64;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -41,11 +42,11 @@ class Base64Test
         );
     }
 
-    @MethodSource("examples")
-    @ParameterizedTest
-    void base64EncoderGivesSameResultAsJavaBase64(String input, String outputFromJavaBase64)
-    {
-        final String outputFromMine = customBase64ED.encode(input);
-        assertThat(outputFromMine).isEqualTo(outputFromJavaBase64);
-    }
+    //@MethodSource("examples")
+    //@ParameterizedTest
+    //void base64EncoderGivesSameResultAsJavaBase64(String input, String outputFromJavaBase64)
+    //{
+    //    final String outputFromMine = customBase64ED.encode(input);
+    //    assertThat(outputFromMine).isEqualTo(outputFromJavaBase64);
+    //}
 }

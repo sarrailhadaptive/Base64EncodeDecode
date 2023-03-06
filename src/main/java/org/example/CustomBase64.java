@@ -1,4 +1,8 @@
+package org.example;
+
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static java.lang.System.out;
@@ -7,40 +11,26 @@ import static java.lang.System.out;
 public class CustomBase64 {
 
     public static void main(String[] args) {
-        for(int i = 0; i < 1000000; i++)
-        {
+        // Aun genero entre un 0.3% y 0.1% de garbage collection en 1 millon de llamadas
+        // en 100 millones de llamadas se genera 100% uso del CPU y se congela todo.
+        for (int i = 0; i < 100000; i++) {
             final CustomBase64 customBase64 = new CustomBase64();
-            out.println(customBase64.encode(GenerateString()));
+            out.println(customBase64.encode(UUID.randomUUID().toString()));
         }
-
     }
 
-    private char[] outputChars;
+    private static char[] outputChars = new char[20];
+    private static char[] buffer = new char[20];
+    private static final char[] base64Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
+    static String res = "";
     //private StringBuilder sb; <<-- it allocates when calls toString()
 
-
-
-    public CustomBase64()
-    {
-        this.outputChars = new char[tamaño fijo]; // reutilizar el mismo tantas veces para un input como haga falta
-    }
-
-    public static String GenerateString() {
-        UUID uuid = UUID.randomUUID();
-        String uuidAsString = uuid.toString();
-        return uuidAsString;
-    }
-
-    public String encode(String input) {
-        // 1. Define table of Base64 characters
-        final char[] base64Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
+    public static String encode(String input) {
         // 2. Convert input to byte array using UTF-8 encoding
         final byte[] inputBytes = input.getBytes(StandardCharsets.UTF_8);
         // DRY
         final int inputLen = inputBytes.length;
         final int outputLen = (inputLen + 2) / 3 * 4;
-        // 3. Output is stored as charArray to avoid creating temporary strings that would trigger the garbage collector
-        final  = new char[outputLen];
 
         // 4. Convert 3-byte chunks to 4-byte chunks
         for (int i = 0, j = 0; i < inputLen;) {
@@ -64,6 +54,23 @@ public class CustomBase64 {
             }
         }
 
-        return FIND A CLASS THAT CAN RETURN A STRING FROM A CHAR[] WITHOUT ALLOCATING;
+        // Copiar el array de chars al array buffer y luego hacer un loop para generar un string es mejor solucion?
+        // El loop genera demasiadas operaciones y empuja mucho el CPU
+        // Este loop esta creando un nuevo objeto?
+        System.arraycopy(outputChars, 0, buffer, 0, outputLen);
+        for (int i = 0; i < outputLen; i++) {
+            res += buffer[i];
+        }
+
+        return res;
+    }
+
+    public List<String> generateList() {
+        List<String> outputList  = new ArrayList<>();
+        for (int i = 0; i < 1000000; i++) {
+            outputList.add(UUID.randomUUID().toString());
+        }
+        return outputList;
     }
 }
+
