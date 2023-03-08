@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.Base64;
 import java.util.stream.Stream;
 
+import org.example.Base64EncodingException;
 import org.example.CustomBase64;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -49,11 +50,40 @@ class Base64Test
         assertThat(outputFromMine).isEqualTo(outputFromJavaBase64);
     }
 
+    public static Stream<Arguments> examplesDecoder()
+    {
+        return Stream.of(
+            Arguments.of(new String(Base64.getEncoder().encode("hola que tal".getBytes())), "hola que tal"),
+            Arguments.of(           new String(Base64.getEncoder().encode("--estamos haciendo pruebas---".getBytes())), "--estamos haciendo pruebas---"),
+            Arguments.of(new String(Base64.getEncoder().encode("del base64 custom __".getBytes())), "del base64 custom __"),
+            Arguments.of(new String(Base64.getEncoder().encode(" a ver si esto funciona".getBytes())), " a ver si esto funciona"),
+            Arguments.of(new String(Base64.getEncoder().encode((" y podemos seguir probando el uso de memoria").getBytes())), " y podemos seguir probando el uso de memoria"),
+            Arguments.of(new String(Base64.getEncoder().encode(("de los metodos encode y decode custom").getBytes())), "de los metodos encode y decode custom"),
+            Arguments.of(new String(Base64.getEncoder().encode("1253014659264895|234523".getBytes())), "1253014659264895|234523")
+        );
+    }
+
+    @MethodSource("examplesDecoder")
+    @ParameterizedTest
+    void base64DecodeGivesSameResultAsJavaBase64(String input, String outputFromJavaBase64)
+    {
+        final String outputFromMine = customBase64ED.decode(input);
+        assertThat(outputFromMine).isEqualTo(outputFromJavaBase64);
+    }
+
     @Test
-    void throwsExceptionIfInputTooLong()
+    void throwsExceptionIfEncodeInputTooLong()
     {
         final CustomBase64 shortBase64 = new CustomBase64(5);
-        assertThrows(IllegalArgumentException.class, ()-> shortBase64.encode("123456"))
-            .getMessage().equals("input length exceeds maxInputSize: 5");
+        final Base64EncodingException ex = assertThrows(Base64EncodingException.class, () -> shortBase64.encode("123456"));
+        assertThat(ex.getMessage()).isEqualTo("input length exceeds maxInputSize: 5");
+    }
+
+    @Test
+    void throwsExceptionIfDecodeInputTooLong()
+    {
+        final CustomBase64 shortBase64 = new CustomBase64(5);
+        final Base64EncodingException ex = assertThrows(Base64EncodingException.class, () -> shortBase64.decode("123456"));
+        assertThat(ex.getMessage()).isEqualTo("input length exceeds maxInputSize: 5");
     }
 }

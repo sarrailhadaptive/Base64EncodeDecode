@@ -1,10 +1,8 @@
-import org.example.CustomBase64;
-
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
+
+import org.example.CustomBase64;
 
 public class Base64EncodeDecode {
 
@@ -23,7 +21,7 @@ public class Base64EncodeDecode {
 
     public static List<String> generateList() {
         List<String> outputList  = new ArrayList<>();
-        for (int i = 0; i < 35_000; i++) {
+        for (int i = 0; i < 35_000_000; i++) {
             outputList.add(UUID.randomUUID().toString());
         }
         return outputList;

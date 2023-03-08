@@ -25,12 +25,12 @@ public class CustomBase64
      * @return the input String in Base64
      * @throws IllegalArgumentException if the input length is greater than the maxInputSize
      */
-    public String encode(String input)
+    public String encode(String input) throws Base64EncodingException
     {
         final int inputLen = input.length();
         if (inputLen > maxInputSize)
         {
-            throw new IllegalArgumentException(format("input length exceeds maxInputSize: %s", maxInputSize));
+            throw new Base64EncodingException(format("input length exceeds maxInputSize: %s", maxInputSize));
         }
 
         // 2. Convert input to byte array using UTF-8 encoding
@@ -69,6 +69,12 @@ public class CustomBase64
         }
 
         return String.valueOf(outputChars, 0, outputLen);
+    }
+
+    public String decode(final String input)
+    {
+        // TODO Matías
+        return null;
     }
 }
 
